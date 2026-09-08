@@ -1,7 +1,6 @@
 package com.tractor.inventory.infrastructure.workers;
 
 import com.tractor.common.event.OrderPlacedEvent;
-import com.tractor.inventory.domain.ports.in.HandleOrderPlacedUseCase;
 import com.tractor.inventory.domain.ports.in.InventoryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
