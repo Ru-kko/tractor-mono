@@ -52,3 +52,7 @@
     never through its tables. When a module needs a foreign identifier, it stores the plain
     identifier (`tractor_id`) as a value, not as a database relation.
   - The `common` module owns no tables.
+  - Flyway migration version numbers are a single global sequence shared by every module: all
+    modules' `db/migration` folders merge onto one `classpath:db/migration` location against one
+    shared `flyway_schema_history` table in `monolith`. A new module's migrations must pick version
+    numbers that do not collide with any other module's already-used versions.
