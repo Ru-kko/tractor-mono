@@ -2,7 +2,7 @@
 id: 003
 name: Catalog
 sdd: true
-state: pending
+state: spec_ready
 module: catalog
 ----
 # Catalog Search
