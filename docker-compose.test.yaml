@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tractor_store
+      POSTGRES_USER: tractor_store
+      POSTGRES_PASSWORD: tractor_store
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tractor_store -d tractor_store"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

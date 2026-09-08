@@ -1,0 +1,4 @@
+// Aggregator only: this root project has no src/ of its own. Each module under
+// common/, cart/, inventory/, monolith/ is an independent Gradle subproject with
+// its own build.gradle; monolith is the only one that assembles and exposes a
+// runnable/executable artifact.
