@@ -2,7 +2,6 @@ package com.tractor.catalog.infrastructure.jpa.entry;
 
 import com.tractor.catalog.application.search.CatalogCursor;
 import com.tractor.catalog.application.search.CatalogFilter;
-import com.tractor.catalog.application.search.FilterField;
 import com.tractor.catalog.application.search.SortDirection;
 import com.tractor.catalog.application.search.SortField;
 import com.tractor.catalog.domain.models.CatalogEntry;
