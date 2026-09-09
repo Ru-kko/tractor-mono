@@ -34,3 +34,45 @@ directly per explicit leader instructions).
   pre-existing `TractorAdded`/`StockUpdated` events) — proof of correctness lives at the unit-test
   level (exact event asserted on the `EventPublisher` port), not via a manual HTTP smoke test.
 
+## `2026-09-08` — feature `003` `catalog` — `done`
+
+**Module:** `catalog`
+**Spec:** `specs/catalog/`
+**Report:** `progress/impl_catalog.md` · **Review:** `progress/review_catalog.md`
+
+**What shipped:** The `catalog` module now supports cursor-paginated tractor search
+(`POST /catalog/search`) with per-field filter operators (equals/not-equals/greater-than/less-than/
+range) and sorting by price/year/horsepower/weight, plus brand and category creation
+(`POST /catalog/brand`, `POST /catalog/category`). Catalog entries are kept in sync with inventory
+purely via Kafka: `TractorAdded` creates an available entry, `TractorOutOfStock` marks it
+unavailable (excluded from search), and `TractorBackInStock` marks it available again. The module
+follows a vertical-sliced package layout (`application.search`/`.brand`/`.category`,
+`infrastructure.jpa.entry`/`.brand`/`.category`) per the corrected `design.md`.
+
+**Requirements:** R1–R27, all covered — see the traceability map in `progress/impl_catalog.md` and
+independently re-verified in `progress/review_catalog.md`.
+
+**Review rounds:** 2 (`CHANGES_REQUESTED` once for a missing `Cover: R16` Javadoc tag and 3 lines
+over the 120-column limit; `APPROVED` on re-review after both were fixed with no behavior change).
+
+**Decisions worth remembering:**
+- Flyway runs a single global migration-version sequence shared by every module's jar on the
+  monolith's classpath (one `classpath:db/migration` location, one `flyway_schema_history` table) —
+  module-local `V1`, `V2`, ... numbering is not isolated per module. Catalog's migrations collided
+  with `inventory`'s pre-existing `V1__create_inventory_stock_item.sql` and were renumbered to
+  `V2__create_catalog_tractor.sql`, `V3__create_catalog_brand.sql`, `V4__create_catalog_category.sql`.
+  `docs/architecture.md` principle 5 now documents this global-sequence constraint explicitly for
+  future features to plan migration version numbers around.
+- Round-1 review correction was narrowly scoped: added the missing `R16` id to an existing `Cover:`
+  Javadoc block in `SearchTest` (the test itself already exercised the behavior) and reformatted 3
+  over-length lines in `CatalogService.java`/`SearchTest.java` with no semantic change — verified by
+  the reviewer via file mtimes that nothing else was touched.
+
+**Left behind on purpose:**
+- None flagged as blocking. Reviewer nits (non-blocking, carried from round 0): domain-layer ports
+  (`CatalogUseCase`, `CatalogEntryRepository`) import application-layer types, mirroring the same
+  pre-existing shape in `inventory`'s `InventoryUseCase`; no class in `catalog/src/main/java` carries
+  Javadoc, matching the systemic repo-wide gap already present in `inventory`; JPA entity setters
+  bypass the domain's intent-revealing `markAvailable`/`markUnavailable` API (acceptable at the
+  mapping-class boundary).
+
