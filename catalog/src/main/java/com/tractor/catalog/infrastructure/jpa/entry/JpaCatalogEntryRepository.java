@@ -162,10 +162,21 @@ public class JpaCatalogEntryRepository implements CatalogEntryRepository {
   }
 
   private CatalogEntryEntity toEntity(CatalogEntry entry) {
-    return new CatalogEntryEntity(
-        entry.getTractorId(), entry.getBrand(), entry.getModel(), entry.getYear(), entry.getPrice(),
-        entry.getHorsepower(), entry.getWeight(), entry.getColor(), entry.getCategory(),
-        entry.getDescription(), entry.getImageUrl(), entry.getStock(), entry.isAvailable());
+    return CatalogEntryEntity.builder()
+            .tractorId(entry.getTractorId())
+            .brand(entry.getBrand())
+            .model(entry.getModel())
+            .year(entry.getYear())
+            .price(entry.getPrice())
+            .horsepower(entry.getHorsepower())
+            .weight(entry.getWeight())
+            .color(entry.getColor())
+            .category(entry.getCategory())
+            .description(entry.getDescription())
+            .imageUrl(entry.getImageUrl())
+            .stock(entry.getStock())
+            .available(entry.isAvailable())
+            .build();
   }
 
   private CatalogEntry toDomain(CatalogEntryEntity entity) {

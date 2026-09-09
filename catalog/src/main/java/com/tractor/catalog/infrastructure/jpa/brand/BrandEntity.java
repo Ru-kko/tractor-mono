@@ -4,10 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "catalog_brand")
 public class BrandEntity {
 
@@ -17,20 +25,4 @@ public class BrandEntity {
 
   @Column(name = "name", nullable = false)
   private String name;
-
-  protected BrandEntity() {
-  }
-
-  public BrandEntity(UUID id, String name) {
-    this.id = id;
-    this.name = name;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
 }

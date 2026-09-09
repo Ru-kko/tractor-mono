@@ -5,10 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "inventory_stock_item")
 public class StockItemEntity {
 
@@ -25,33 +34,4 @@ public class StockItemEntity {
   @Version
   @Column(name = "version", nullable = false)
   private long version;
-
-  protected StockItemEntity() {
-  }
-
-  public StockItemEntity(UUID tractorId, int quantity, BigDecimal price) {
-    this.tractorId = tractorId;
-    this.quantity = quantity;
-    this.price = price;
-  }
-
-  public UUID getTractorId() {
-    return tractorId;
-  }
-
-  public int getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public long getVersion() {
-    return version;
-  }
 }

@@ -34,7 +34,12 @@ public class JpaStockItemRepository implements StockItemRepository {
           existing.setQuantity(item.getStock());
           return existing;
         })
-        .orElseGet(() -> new StockItemEntity(item.getTractorId(), item.getStock(), item.getPrice()));
+        .orElseGet(() -> StockItemEntity.builder()
+            .tractorId(item.getTractorId())
+            .quantity(item.getStock())
+            .price(item.getPrice())
+            .build()
+        );
 
     StockItemEntity saved = jpaRepository.save(entity);
     return StockItem.builder()
